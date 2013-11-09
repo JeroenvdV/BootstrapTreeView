@@ -30,14 +30,14 @@ $(document).ready(function () {
 	//When a checkbox is changed, its parents and children need to be updated.
 	$('.tree input[type="checkbox"]').click(function () {
 	
-		checkboxChangeDown(this);
-		checkboxChangeUp(this);
+		var el = $(this);
+		checkboxChangeDown(el);
+		checkboxChangeUp(el);
 	});
 });
 
 //Returns the state of a checkbox out of {0,1,2} (2 being indeterminate)
-function getCheckboxState(cb) {
-	el = $(cb);
+function getCheckboxState(el) {
 
 	if (el.prop('indeterminate')) {
 		return 2;
@@ -70,10 +70,10 @@ function setCheckboxState(el, new_state) {
 function updateParentCheckbox(list_item) {
 
 	//Get this list-item's checkbox element
-	var checkbox = $(list_item).children('input[type="checkbox"]:first');
+	var checkbox = list_item.children('input[type="checkbox"]:first');
 
 	//Obtain direct children
-	var child_items = $(list_item).children('ul').children('li')
+	var child_items = list_item.children('ul').children('li')
 	var children = child_items.children('label').children('input[type="checkbox"]');
 	var children = $.merge(children, child_items.children('input[type="checkbox"]'));
 
@@ -82,9 +82,9 @@ function updateParentCheckbox(list_item) {
 	//Counters
 	var childrenon = 0;
 	var childrenoff = 0;
-	children.each(function (i, el) {
+	children.each(function (i, cb) {
 		//Determine checkbox state
-		var child_state = getCheckboxState(el);
+		var child_state = getCheckboxState($(cb));
 		
 		if (2 == child_state) {
 			new_state = 2;
@@ -108,33 +108,29 @@ function updateParentCheckbox(list_item) {
 	//Take action
 	if (setCheckboxState(checkbox, new_state)) {
 		//This item's state has changed, so propagate to its parents as well
-		checkboxChangeUp(checkbox.get(0));
+		checkboxChangeUp(checkbox);
 	}
 }
 
 //Update checkbox changes 'upwards' if necessary
-function checkboxChangeUp(cb) {
-	var parent2 = cb.parentElement.parentElement;
+function checkboxChangeUp(el) {
+	var parent_node = el.parents('li');
 
 	//Determine if this checkbox has parent-checkboxes
-	if ("LI" == parent2.tagName && "LI" == parent2.parentElement.parentElement.tagName) {
+	if (parent_node.length > 1) {
 
-		//cb is a normal child, and has a parent-checkbox which may need to change
-		updateParentCheckbox(parent2.parentElement.parentElement);
-	} else if ("UL" == parent2.tagName && "LI" == parent2.parentElement.tagName) {
-	
-		//cb is a parent itself, and has a parent-checkbox which may need to change
-		updateParentCheckbox(parent2.parentElement);
-	}
+		//Update the second parent li, which is the actual parent node in the tree
+		updateParentCheckbox($(parent_node.get(1)));
+	} 
 }
 
 //Update checkbox changes 'downwards' if necessary
-function checkboxChangeDown(cb) {
+function checkboxChangeDown(el) {
 	//Determine new state
-	var new_state = getCheckboxState(cb);
+	var new_state = getCheckboxState(el);
 
 	//Update any child-checkboxes
-	$(cb.parentElement).find('input[type="checkbox"]').each(function (i, el) {
-		setCheckboxState($(el), new_state);
+	el.parent().find('input[type="checkbox"]').each(function (i, cb) {
+		setCheckboxState($(cb), new_state);
 	});
 }
