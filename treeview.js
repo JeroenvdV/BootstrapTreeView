@@ -20,7 +20,7 @@ $(document).ready(function () {
 	//Adds the bagdes with the number of children to parent items
 	$('.tree .list-group-item').each(function (i, lgi) {
 		lgi = $(lgi);
-		var child_item_count = lgi.find('li').size(); //'.find()' is not optimal here
+		var child_item_count = lgi.find('li').length; //'.find()' is not optimal here
 		if (child_item_count > 0) {
 			var badge = $('<span class="badge childcounter">').text(child_item_count);
 			lgi.prepend(badge);
