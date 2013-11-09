@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
+		<meta charset="utf-8">
+		<title>Bootstrap 3.0 / jQuery 2.0 tree view with checkboxes</title>
+
+		<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
+		
+		<!--[if lt IE 9]>
+		  <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+		<style type="text/css">
+			.list-group-item {
+				padding: 5px 15px;
+				padding-right: 0px;
+				border: none;
+			}
+			
+			input[type=checkbox] {
+				margin-top: 0px;
+				margin-right: 0.5em;
+				vertical-align: -1px;
+			}
+			
+			.tree label {
+				color: #555;
+			}
+			
+			.tree label:hover {
+				text-decoration: underline;
+			}
+			
+			.tree label.tree-parent {
+				color: #222;
+			}
+			
+			.tree label.tree-parent:hover {
+				text-decoration: none;
+			}
+			
+		</style>
+	</head>
+		
+	<body>
+
+		<div class="well">
+			<ul class="list-group tree">
+				<li class="list-group-item"><input type="checkbox" /><label class="tree-toggle tree-parent">Bootstrap <span class="glyphicon glyphicon-chevron-down"></span></label>
+					<ul class="list-group tree">
+						<li class="list-group-item"><label><input type="checkbox" />JavaScript</label></li>
+						<li class="list-group-item"><label><input type="checkbox" />CSS</label></li>
+						<li class="list-group-item"><input type="checkbox" /><label class="tree-toggle tree-parent">Buttons <span class="glyphicon glyphicon-chevron-down"></span></label>
+							<ul class="list-group tree">
+								<li class="list-group-item"><label><input type="checkbox" />Colors</label></li>
+								<li class="list-group-item"><label><input type="checkbox" />Sizes</label></li>
+								<li class="list-group-item"><input type="checkbox" /><label class="tree-toggle tree-parent">Forms <span class="glyphicon glyphicon-chevron-down"></span></label>
+									<ul class="list-group tree">
+										<li class="list-group-item"><label><input type="checkbox" />Horizontal</label></li>
+										<li class="list-group-item"><label><input type="checkbox" />Vertical</label></li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>		  
+		<script type='text/javascript' src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+		<script type='text/javascript' src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+		<script type='text/javascript' src="treeview.js"></script>
+		
+	</body>
+</html>
